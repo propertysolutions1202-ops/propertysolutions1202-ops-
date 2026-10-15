@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://www.propertyrepairsolution.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://www.propertyrepairsolution.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io mailto:; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <title>Who is the Top Handyman in Saginaw, MI? | Property Repair &amp; Solutions</title>
@@ -246,12 +246,15 @@
   </div>
   <div class="quote-form-section" id="quote">
     <h2 style="margin-top:0">Request a free quote</h2>
-    <form id="qf"><div class="quote-form-grid">
-      <div class="form-group"><label for="n">Name</label><input id="n" name="name" autocomplete="name" required></div>
-      <div class="form-group"><label for="p">Phone</label><input id="p" name="phone" type="tel" autocomplete="tel" required></div>
-    </div>
-    <div class="form-group"><label for="m">Tell us about the project</label><textarea id="m" name="project" required></textarea></div>
-    <button class="btn btn-primary" type="submit">Send request</button></form>
+    <form id="qf" method="POST" action="https://formspree.io/f/mwlpggrj">
+      <input type="hidden" name="_subject" value="Free quote request from website">
+      <div class="quote-form-grid">
+        <div class="form-group"><label for="n">Name</label><input id="n" name="name" autocomplete="name" required></div>
+        <div class="form-group"><label for="p">Phone</label><input id="p" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="form-group"><label for="m">Tell us about the project</label><textarea id="m" name="project" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send request</button>
+    </form>
   </div>
 </div></section>
 </main>
@@ -261,9 +264,37 @@
   <div class="footer-col"><h4>Serving</h4><ul><li>Saginaw &amp; the Tri-Cities</li><li>The Thumb area</li><li>All of Central Michigan</li></ul></div>
 </div><div class="copyright">&copy; 2026 Property Repair &amp; Solutions. All rights reserved.</div></footer>
 <script>
-document.getElementById('qf').addEventListener('submit',function(e){e.preventDefault();
-var t='Quote request from '+document.getElementById('n').value+' ('+document.getElementById('p').value+'): '+document.getElementById('m').value;
-window.location.href='mailto:Jason@propertyrepairsolution.com?subject='+encodeURIComponent('Free quote request')+'&body='+encodeURIComponent(t);});
+  document.getElementById('qf').addEventListener('submit', function(e) {
+    const form = e.currentTarget;
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(function(response) {
+      if (response.ok) {
+        form.reset();
+        submitButton.textContent = 'Sent successfully';
+        window.setTimeout(function() {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Send request';
+        }, 2500);
+      } else {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Try again';
+        alert('There was a problem sending the form. Please try again or call the office directly.');
+      }
+    }).catch(function() {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Try again';
+      alert('There was a problem sending the form. Please try again or call the office directly.');
+    });
+    e.preventDefault();
+  });
 </script>
 </body>
 </html>
