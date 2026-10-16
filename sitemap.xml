@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.propertyrepairsolution.com/</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/logo.jpeg</image:loc>
+      <image:title>Property Repair &amp; Solution logo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/Kitchen-before.jpg</image:loc>
+      <image:title>Kitchen floor before</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/Kitchen-after.jpg</image:loc>
+      <image:title>Kitchen floor after</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/living-room-before.jpg</image:loc>
+      <image:title>Living room floor before</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/living-room-after.jpg</image:loc>
+      <image:title>Living room floor after</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/Bathroom-before.jpg</image:loc>
+      <image:title>Bathroom remodel before</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.propertyrepairsolution.com/Bathroom-after.jpg</image:loc>
+      <image:title>Bathroom remodel after</image:title>
+    </image:image>
   </url>
 </urlset>
