@@ -31,19 +31,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-img {
-  max-width: 100%;
-  display: block;
-}
+img { max-width: 100%; display: block; }
 
 a {
   color: inherit;
   transition: color .2s ease, background-color .2s ease, border-color .2s ease;
 }
 
-p, ul, ol {
-  margin-top: 0;
-}
+p, ul, ol { margin-top: 0; }
 
 h1, h2, h3, h4 {
   font-family: 'Big Shoulders Display', sans-serif;
@@ -179,11 +174,12 @@ h1, h2, h3, h4 {
   letter-spacing: .03em;
   border: none;
   cursor: pointer;
-  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
 .btn:hover {
   transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(16, 23, 31, 0.14);
 }
 
 .btn-primary {
@@ -229,16 +225,11 @@ h1, h2, h3, h4 {
   margin: 0 0 .5em;
 }
 
-.eyebrow.light {
-  color: var(--amber);
-}
-
-.hero .eyebrow {
-  color: var(--amber);
-}
+.eyebrow.light { color: var(--amber); }
+.hero .eyebrow { color: var(--amber); }
 
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
   color: #fff;
 }
 
@@ -353,7 +344,7 @@ h1, h2, h3, h4 {
 }
 
 .section-header h2 {
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
 }
 
 .card {
@@ -374,6 +365,12 @@ h1, h2, h3, h4 {
 .service-card {
   background: var(--panel);
   padding: 22px 20px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(16, 23, 31, 0.08);
 }
 
 .service-card h3 {
@@ -525,17 +522,9 @@ h1, h2, h3, h4 {
   color: var(--paper);
 }
 
-.quote-section .eyebrow {
-  color: var(--amber);
-}
-
-.quote-section h2 {
-  color: #fff;
-}
-
-.quote-section p {
-  color: #CBC2AE;
-}
+.quote-section .eyebrow { color: var(--amber); }
+.quote-section h2 { color: #fff; }
+.quote-section p { color: #CBC2AE; }
 
 .quote-wrap {
   display: grid;
@@ -562,9 +551,7 @@ h1, h2, h3, h4 {
   color: var(--navy);
 }
 
-.quote-form label:first-child {
-  margin-top: 0;
-}
+.quote-form label:first-child { margin-top: 0; }
 
 .field-row {
   display: grid;
@@ -623,13 +610,8 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
 }
 
-.footer-grid h3 {
-  font-size: 1.1rem;
-}
-
-.footer-grid h4 {
-  font-size: 1rem;
-}
+.footer-grid h3 { font-size: 1.1rem; }
+.footer-grid h4 { font-size: 1rem; }
 
 .footer-grid p {
   text-transform: none;
@@ -642,17 +624,9 @@ h1, h2, h3, h4 {
   padding: 0;
 }
 
-.footer-grid li {
-  margin-bottom: 6px;
-}
-
-.footer-grid a {
-  text-decoration: none;
-}
-
-.footer-grid a:hover {
-  color: var(--amber);
-}
+.footer-grid li { margin-bottom: 6px; }
+.footer-grid a { text-decoration: none; }
+.footer-grid a:hover { color: var(--amber); }
 
 .copyright {
   border-top: 1px solid rgba(255,255,255,.1);
@@ -661,73 +635,26 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 860px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-  }
-
-  .trust-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .hero-inner { grid-template-columns: 1fr; }
+  .trust-grid { grid-template-columns: 1fr; }
   .trust-grid > div {
     border-right: none;
     border-bottom: 1px solid rgba(16,23,31,.15);
   }
-
-  .services-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .reviews-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quote-wrap {
-    grid-template-columns: 1fr;
-  }
-
-  .field-row {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .quote-wrap { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
 }
 
 @media (max-width: 520px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .nav {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
-  .nav-links {
-    gap: 10px 14px;
-    font-size: .85rem;
-  }
-
-  .hero {
-    padding-top: 48px;
-  }
-
-  .container {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
+  .services-grid { grid-template-columns: 1fr; }
+  .nav { padding-left: 14px; padding-right: 14px; }
+  .nav-links { gap: 10px 14px; font-size: .85rem; }
+  .hero { padding-top: 48px; }
+  .container { padding-left: 18px; padding-right: 18px; }
 }
