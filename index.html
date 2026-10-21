@@ -427,6 +427,19 @@ header.site-head{position:sticky;top:0;z-index:50;background:color-mix(in srgb, 
 .band-track span{padding:0 16px}
 .band-track i{font-style:normal;opacity:.65}
 
+/* WINTERIZATION ALERT BANNER */
+.winter-banner{background:var(--navy);color:#fff;border-bottom:3px solid var(--line);padding:48px 0}
+.winter-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:38px;align-items:center}
+@media(max-width:860px){.winter-grid{grid-template-columns:1fr;gap:26px}}
+.winter-photo{margin:0;border:3px solid #fff;border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--orange);transform:rotate(-1.2deg)}
+.winter-photo img{width:100%;height:340px;object-fit:cover;object-position:center 32%}
+@media(max-width:860px){.winter-photo img{height:280px}}
+.winter-tag{display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:#0F1C24;padding:6px 14px;border-radius:999px;border:2.5px solid var(--line);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.winter-copy h2{font-size:clamp(30px,4.4vw,46px);font-weight:800;text-transform:uppercase;color:#fff;margin:16px 0 12px}
+.winter-copy h2 span{color:var(--yellow)}
+.winter-copy p{color:#C7D6DE;font-size:16.5px;font-weight:500;margin:0 0 24px;max-width:620px}
+.winter-ctas{display:flex;flex-wrap:wrap;gap:14px}
+
 /* SECTIONS */
 section{padding:84px 0}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
@@ -704,6 +717,22 @@ footer.site{background:var(--navy);color:#C7D6DE;padding:44px 0 30px}
     </div>
     <div class="band" aria-hidden="true"><div class="band-track" id="bandTrack"></div></div>
   </div>
+
+  <!-- WINTERIZATION ALERT BANNER -->
+  <section class="winter-banner" aria-label="Winterization alert">
+    <div class="wrap winter-grid">
+      <figure class="winter-photo"><img src="assets/asset-a1042efc7e1a.jpg" alt="Water pouring from burst pipes into a basement sump pit — what happens when pipes aren't winterized" width="1536" height="2048" loading="lazy" /></figure>
+      <div class="winter-copy">
+        <span class="winter-tag">❄️ Seasonal alert</span>
+        <h2>This is what happens when you <span>don&rsquo;t winterize.</span></h2>
+        <p>A spigot or pipe that isn&rsquo;t shut off and drained can split on the first hard freeze — and this is the mess you wake up to. Get your hose bibs and outdoor faucets shut off, drained, and insulated now. Quick job, way cheaper than an emergency call in January.</p>
+        <div class="winter-ctas">
+          <a class="btn btn-primary" href="tel:+19892844323" style="font-size:16px;padding:15px 26px">📞 Call (989) 284-4323</a>
+          <a class="btn btn-yellow" href="#quote" style="font-size:16px;padding:15px 26px">Get a Free Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- GUARANTEES -->
   <section style="padding-bottom:0" aria-label="Why choose Property Repair and Solution">
