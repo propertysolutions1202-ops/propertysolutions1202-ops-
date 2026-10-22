@@ -1025,6 +1025,7 @@ footer.site{background:var(--navy);color:#C7D6DE;padding:44px 0 30px}
           <input type="hidden" name="_subject" value="Free quote request from website" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" value="https://www.propertyrepairsolution.com/#quote" />
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
           <div class="field"><label for="qService">What service do you need?</label>
             <select id="qService" name="service"></select></div>
@@ -1245,7 +1246,7 @@ function syncPhotoInput(){
     var dt = new DataTransfer();
     photoFiles.forEach(function(f){ dt.items.add(f); });
     photoInput.files = dt.files;
-  }catch(e){ /* older browser: the AJAX send below rebuilds attachments from photoFiles anyway */ }
+  }catch(e){ /* older browser without DataTransfer: the native file input still carries the last picked photos */ }
 }
 function renderPhotos(){
   photoThumbs.innerHTML = "";
@@ -1305,10 +1306,13 @@ document.getElementById('dlBtn').addEventListener('click', function(){
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
 });
 
-// Send the request (fields + photos) in-page to the same FormSubmit inbox the
-// form action points at — the visitor stays on the page and gets a real
-// confirmation. If in-page sending isn't available, the form falls back to
-// its normal POST submission.
+// Submit natively to FormSubmit via the form's multipart POST so the photo
+// attachments are actually delivered — FormSubmit's AJAX endpoint drops file
+// uploads. The picked photos are already synced into the file input by
+// syncPhotoInput(), and the _next hidden field brings the visitor back to
+// this page's quote section after sending. This handler only keeps the
+// client-side validation and shows the sending state; it never intercepts
+// or prevents the native submission.
 var quoteForm = document.getElementById('quoteForm');
 var sendBtn = document.getElementById('sendBtn');
 var formStatus = document.getElementById('formStatus');
@@ -1318,41 +1322,11 @@ function showFormStatus(kind, html){
   formStatus.innerHTML = html;
 }
 quoteForm.addEventListener('submit', function(ev){
-  if(!window.fetch || !window.FormData) return; // native POST fallback
-  ev.preventDefault();
-  if(!quoteForm.checkValidity()){ quoteForm.reportValidity(); return; }
-  var fd = new FormData(quoteForm);
-  fd.delete('attachment');
-  photoFiles.forEach(function(f){ fd.append('attachment', f, f.name); });
+  if(!quoteForm.checkValidity()){ ev.preventDefault(); quoteForm.reportValidity(); return; }
   var photoCount = photoFiles.length;
-  var originalLabel = sendBtn.textContent;
   sendBtn.disabled = true;
   sendBtn.textContent = 'Sending…';
   showFormStatus('sending', 'Sending your request' + (photoCount ? ' with ' + photoCount + ' photo' + (photoCount === 1 ? '' : 's') : '') + '…');
-  fetch('https://formsubmit.co/ajax/Jason@propertyrepairsolution.com', { method:'POST', headers:{ 'Accept':'application/json' }, body: fd })
-    .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(data){ return { ok:r.ok, data:data }; }); })
-    .then(function(res){
-      if(res.ok && !(res.data && (res.data.success === 'false' || res.data.success === false))){
-        showFormStatus('success', '<strong>✓ Request sent!</strong> Thanks — we&rsquo;ll review your project' + (photoCount ? ' and your photos' : '') + ' and get back to you with a free, upfront quote. Need it faster? Call <a href="tel:+19892844323">(989) 284-4323</a>.');
-        quoteForm.reset();
-        photoFiles = [];
-        photoInput.value = '';
-        renderPhotos();
-        document.querySelectorAll('#urgencyPills .pill').forEach(function(x){ x.classList.toggle('active', x.dataset.v === 'This week'); });
-        document.getElementById('qUrgency').value = 'This week';
-        urgency = 'This week';
-        updateSummary();
-      } else {
-        throw new Error('send failed');
-      }
-    })
-    .catch(function(){
-      showFormStatus('error', '<strong>We couldn&rsquo;t send that just now.</strong> Your details are still filled in — tap Send Request to try again, or text your photos and details straight to <a href="sms:+19892957179">(989) 295-7179</a> and we&rsquo;ll quote you from there.');
-    })
-    .then(function(){
-      sendBtn.disabled = false;
-      sendBtn.textContent = originalLabel;
-    });
 });
 
 // Winter prep carousel — auto-advances every 6s, pauses on hover/focus, arrows + dots + swipe
