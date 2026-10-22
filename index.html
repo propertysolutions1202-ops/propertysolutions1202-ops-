@@ -451,6 +451,40 @@ header.site-head{position:sticky;top:0;z-index:50;background:color-mix(in srgb, 
 .winter-ctas .btn-yellow:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(0,0,0,.35)}
 .winter-ctas .btn-yellow:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.35)}
 
+/* WINTER PREP CAROUSEL — navy band with yellow accents, sits directly below the caution banner */
+.winter-prep{background:var(--navy);color:#fff;padding:76px 0 70px}
+.winter-prep .kicker{color:var(--yellow)}
+.winter-prep .kicker::before{background:var(--yellow)}
+.wp-head{max-width:860px;margin-bottom:34px}
+.wp-head h2{font-size:clamp(34px,5vw,58px);font-weight:800;text-transform:uppercase;color:#fff}
+.wp-head h2 span{color:var(--yellow)}
+.wp-head p{color:#C7D6E0;font-size:17px;font-weight:500;margin:14px 0 0;max-width:700px}
+.wp-viewport{overflow:hidden;border-radius:22px;touch-action:pan-y}
+.wp-track{display:flex;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.wp-slide{flex:0 0 100%;min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:4px}
+.wp-photo{position:relative;margin:0}
+.wp-photo>img:not(.wp-inset){width:100%;height:400px;object-fit:cover;border-radius:20px;border:3px solid rgba(255,255,255,.22)}
+.wp-inset{position:absolute;right:14px;bottom:14px;width:44%;height:158px;object-fit:cover;border-radius:14px;border:3px solid var(--yellow);box-shadow:0 12px 26px rgba(0,0,0,.5)}
+.wp-count{position:absolute;top:14px;left:14px;background:rgba(7,26,38,.88);color:var(--yellow);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.12em}
+.wp-copy h3{font-size:clamp(27px,3.4vw,40px);font-weight:800;text-transform:uppercase;color:#fff;margin:0 0 14px}
+.wp-copy p{color:#D8E4EC;font-size:16.5px;margin:0;max-width:520px}
+.wp-copy p a{color:var(--yellow);font-weight:800;text-decoration:none;white-space:nowrap}
+.wp-copy .btn{margin-top:22px}
+.wp-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:32px}
+.wp-arrow{width:54px;height:54px;flex-shrink:0;border-radius:50%;border:2.5px solid var(--yellow);background:transparent;color:var(--yellow);font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:inherit;transition:background .15s,color .15s,transform .15s}
+.wp-arrow:hover{background:var(--yellow);color:#0A2536}
+.wp-arrow:active{transform:scale(.94)}
+.wp-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.wp-dot{width:12px;height:12px;border-radius:999px;border:2px solid var(--yellow);background:transparent;padding:0;cursor:pointer;transition:width .25s,background .25s}
+.wp-dot.active{width:30px;background:var(--yellow)}
+@media(max-width:860px){
+  .wp-slide{grid-template-columns:1fr;gap:26px}
+  .wp-photo>img:not(.wp-inset){height:280px}
+  .wp-inset{height:108px}
+  .wp-arrow{width:46px;height:46px;font-size:20px}
+}
+@media (prefers-reduced-motion: reduce){.wp-track{transition:none}}
+
 /* SECTIONS */
 section{padding:84px 0}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
@@ -740,6 +774,72 @@ footer.site{background:var(--navy);color:#C7D6DE;padding:44px 0 30px}
         <div class="winter-ctas">
           <a class="btn btn-primary" href="tel:+19892844323" style="font-size:16px;padding:15px 26px">📞 Call (989) 284-4323</a>
           <a class="btn btn-yellow" href="#quote" style="font-size:16px;padding:15px 26px">Get a Free Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WINTER PREP — VACATION HOMES & COTTAGES CAROUSEL -->
+  <section class="winter-prep" aria-label="Winter prep for vacation homes and cottages">
+    <div class="wrap">
+      <div class="wp-head">
+        <div class="kicker">Winterization service</div>
+        <h2>One frozen pipe can <span>flood it</span> for months.</h2>
+        <p>Winterization for vacation homes &amp; cottages — lines blown out, tanks drained, drains and septic handled, all in one visit before the deep freeze.</p>
+      </div>
+      <div class="wp-frame" id="wpFrame">
+        <div class="wp-viewport">
+          <div class="wp-track" id="wpTrack">
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-e389c2f5888c.webp" alt="Snow-covered A-frame cottage in the woods in winter" width="1440" height="960" loading="lazy" /><span class="wp-count">1 / 11</span></figure>
+              <div class="wp-copy"><h3>Closing Up the Cottage for Winter?</h3><p>A vacation home that sits empty all winter can&rsquo;t call for help. One frozen pipe can run for months before anyone walks in. We close it up right — start to finish.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-1879c67b37c5.jpg" alt="Standing water pooled in a crawlspace under a home" width="2048" height="1428" loading="lazy" /><span class="wp-count">2 / 11</span></figure>
+              <div class="wp-copy"><h3>This Is What Spring Finds</h3><p>Standing water, a soaked crawlspace, split pipes — that&rsquo;s the welcome home when a place sits all winter with water still in the lines.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-39b358428943.jpg" alt="New white PVC drain plumbing installed in a basement" width="1536" height="2048" loading="lazy" /><span class="wp-count">3 / 11</span></figure>
+              <div class="wp-copy"><h3>Supply Lines Blown Out</h3><p>Water off at the main, every fixture opened, and the lines blown clear with air at a safe 40–50 PSI — so nothing is left sitting in a low spot to freeze and split.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-38e026c46477.jpg" alt="Blue Water Worker well pressure tank with its pressure switch and gauge" width="2048" height="1536" loading="lazy" /><img class="wp-inset" src="assets/asset-df9699b0f0d9.jpg" alt="The same well pressure tank and piping from another angle" width="1536" height="2048" loading="lazy" /><span class="wp-count">4 / 11</span></figure>
+              <div class="wp-copy"><h3>Well &amp; Pressure Tank Drained Dry</h3><p>Pump breaker off, pressure tank drained, water heater drained and shut down. An electric heater left on with an empty tank burns out its elements in minutes.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-99a91c4710d2.jpg" alt="Boiler with a black expansion tank mounted above it" width="1128" height="1504" loading="lazy" /><span class="wp-count">5 / 11</span></figure>
+              <div class="wp-copy"><h3>Boiler &amp; Expansion Tank Checked</h3><p>Expansion tanks lose their air charge over time — a waterlogged tank spikes pressure and weeps the relief valve all winter. Leaving the heat on low? We verify the charge. Shutting it down? We drain the boiler and its lines too.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-209643574b7e.jpg" alt="PVC drain lines and a P-trap in a crawlspace" width="1536" height="1904" loading="lazy" /><span class="wp-count">6 / 11</span></figure>
+              <div class="wp-copy"><h3>Drain Lines Flushed, Traps Protected</h3><p>Drains flushed, toilets emptied, and every trap filled with RV antifreeze — the pink, non-toxic kind. Never automotive antifreeze.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-0d6b537f5572.jpg" alt="Muddy crawlspace floor at a home being prepped for winter" width="1536" height="2048" loading="lazy" /><span class="wp-count">7 / 11</span></figure>
+              <div class="wp-copy"><h3>Septic System Put to Bed</h3><p>Tank pumped before close-up, exposed lines insulated, and the tank and drainfield marked before snow buries them — with nothing parked or plowed over the field.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-8e3354c81f80.jpg" alt="Crawlspace being dried out with a big blue air mover fan" width="1536" height="2048" loading="lazy" /><img class="wp-inset" src="assets/asset-6e497ba2b94d.jpg" alt="Close-up of an air mover drying fan running in a crawlspace" width="1536" height="2048" loading="lazy" /><span class="wp-count">8 / 11</span></figure>
+              <div class="wp-copy"><h3>Crawlspace Dried &amp; Checked</h3><p>A wet crawlspace sealed up for winter grows mold and rot for five months. We dry it out and track down where the water&rsquo;s getting in.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-2ca3e7d5cfd8.jpg" alt="Cleaning leaves and debris out of a roof gutter" width="800" height="1067" loading="lazy" /><span class="wp-count">9 / 11</span></figure>
+              <div class="wp-copy"><h3>Gutters &amp; Downspouts Cleaned Out</h3><p>Clogged gutters hold water right at the roof edge — exactly where trouble starts. Clean and flowing before the snow flies.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-e5e773af06f4.png" alt="Ice dam built up along the edge of a snow-covered roof" width="1200" height="628" loading="lazy" /><span class="wp-count">10 / 11</span></figure>
+              <div class="wp-copy"><h3>Ice Dams Starved Before They Start</h3><p>Snowmelt that can&rsquo;t drain refreezes at the eave, builds an ice dam, and pushes water under your shingles — soaking walls and ceilings while nobody&rsquo;s there.</p></div>
+            </article>
+            <article class="wp-slide">
+              <figure class="wp-photo"><img src="assets/asset-fa16ffc060b4.jpg" alt="Water pooled across a basement floor after a leak" width="1536" height="2048" loading="lazy" /><span class="wp-count">11 / 11</span></figure>
+              <div class="wp-copy"><h3>Book Your Winterization Before the First Hard Freeze</h3><p>One visit before the deep freeze beats one disaster in the spring. Call <a href="tel:+19892844323">(989) 284-4323</a> · Text <a href="sms:+19892957179">(989) 295-7179</a></p><a class="btn btn-yellow" href="#quote">Get a Free Quote</a></div>
+            </article>
+          </div>
+        </div>
+        <div class="wp-controls">
+          <button type="button" class="wp-arrow" id="wpPrev" aria-label="Previous slide">&#8249;</button>
+          <div class="wp-dots" id="wpDots" role="tablist" aria-label="Choose a slide"></div>
+          <button type="button" class="wp-arrow" id="wpNext" aria-label="Next slide">&#8250;</button>
         </div>
       </div>
     </div>
@@ -1254,6 +1354,52 @@ quoteForm.addEventListener('submit', function(ev){
       sendBtn.textContent = originalLabel;
     });
 });
+
+// Winter prep carousel — auto-advances every 6s, pauses on hover/focus, arrows + dots + swipe
+(function(){
+  var track = document.getElementById('wpTrack');
+  if(!track) return;
+  var frame = document.getElementById('wpFrame');
+  var dotsWrap = document.getElementById('wpDots');
+  var total = track.children.length;
+  var idx = 0, timer = null;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dots = [];
+  for(var i = 0; i < total; i++){
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'wp-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1) + ' of ' + total);
+    (function(n){ d.addEventListener('click', function(){ go(n); restart(); }); })(i);
+    dotsWrap.appendChild(d);
+    dots.push(d);
+  }
+  function go(n){
+    idx = (n + total) % total;
+    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    dots.forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+  }
+  function start(){ if(reduceMotion || timer) return; timer = setInterval(function(){ go(idx + 1); }, 6000); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  function restart(){ stop(); start(); }
+  document.getElementById('wpPrev').addEventListener('click', function(){ go(idx - 1); restart(); });
+  document.getElementById('wpNext').addEventListener('click', function(){ go(idx + 1); restart(); });
+  frame.addEventListener('mouseenter', stop);
+  frame.addEventListener('mouseleave', start);
+  frame.addEventListener('focusin', stop);
+  frame.addEventListener('focusout', start);
+  document.addEventListener('visibilitychange', function(){ if(document.hidden){ stop(); } else { start(); } });
+  var startX = null;
+  frame.addEventListener('touchstart', function(e){ startX = e.changedTouches[0].clientX; stop(); }, {passive:true});
+  frame.addEventListener('touchend', function(e){
+    if(startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 45){ go(idx + (dx < 0 ? 1 : -1)); }
+    startX = null;
+    restart();
+  }, {passive:true});
+  start();
+})();
 </script>
 </body>
 </html>
