@@ -485,6 +485,17 @@ header.site-head{position:sticky;top:0;z-index:50;background:color-mix(in srgb, 
 }
 @media (prefers-reduced-motion: reduce){.wp-track{transition:none}}
 
+/* WINTERIZATION WEEKEND POST — sits directly below the winter-prep carousel */
+.winter-weekend{background:var(--bg2);border-bottom:3px solid var(--line);padding:76px 0}
+.ww-card{background:var(--surface);border:2.5px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:38px 40px;max-width:920px;margin:0 auto}
+@media(max-width:600px){.ww-card{padding:28px 22px}}
+.ww-card h2{font-size:clamp(30px,4.4vw,46px);font-weight:800;line-height:1.05;margin:0 0 16px}
+.ww-card h2 span{color:var(--orange)}
+.ww-card p{font-size:17px;color:var(--ink2);font-weight:500;margin:0 0 16px;max-width:760px}
+.ww-booking{font-family:"Bricolage Grotesque",sans-serif;font-size:21px;font-weight:800;color:var(--ink);margin:0 0 26px}
+.ww-ctas{display:flex;flex-wrap:wrap;gap:14px}
+.ww-areas{margin:26px 0 0;padding-top:20px;border-top:1.5px solid var(--line-soft);font-size:14px;font-weight:700;color:var(--muted)}
+
 /* SECTIONS */
 section{padding:84px 0}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
@@ -841,6 +852,24 @@ footer.site{background:var(--navy);color:#C7D6DE;padding:44px 0 30px}
           <div class="wp-dots" id="wpDots" role="tablist" aria-label="Choose a slide"></div>
           <button type="button" class="wp-arrow" id="wpNext" aria-label="Next slide">&#8250;</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WINTERIZATION WEEKEND POST -->
+  <section class="winter-weekend" aria-label="Winterization booking this weekend">
+    <div class="wrap">
+      <div class="ww-card reveal">
+        <div class="kicker">Winterization</div>
+        <h2>Warm weekend, Saginaw — perfect time to get winterization done while the weather&rsquo;s still on our side. ☀️</h2>
+        <p>Hose bibs and outdoor faucets shut off and drained, gutters cleaned out, and drain-outs for cottages and vacation homes that sit all winter. One frozen pipe can flood a place for months — a quick winterization now beats an emergency call in January.</p>
+        <p class="ww-booking">Booking now for this weekend and next week.</p>
+        <div class="ww-ctas">
+          <a class="btn btn-primary" href="tel:+19892844323">📞 Call: (989) 284-4323</a>
+          <a class="btn btn-dark" href="sms:+19892957179">💬 Text me photos of the problem: (989) 295-7179</a>
+          <a class="btn btn-yellow" href="#quote">Get a Free Quote</a>
+        </div>
+        <p class="ww-areas">Property Repair &amp; Solution — Saginaw, Midland, Bay City, Frankenmuth, Freeland and surrounding areas</p>
       </div>
     </div>
   </section>
