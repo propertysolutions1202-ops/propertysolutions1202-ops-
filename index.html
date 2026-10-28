@@ -1262,7 +1262,8 @@ document.querySelectorAll('#urgencyPills .pill').forEach(function(p){
 });
 // Photo attachments — pick, preview, validate, remove; sent with the form as "attachment"
 var photoFiles = [];
-var MAX_PHOTOS = 6, MAX_PHOTO_BYTES = 10 * 1024 * 1024;
+var MAX_PHOTOS = 6, MAX_PHOTO_BYTES = 25 * 1024 * 1024;
+var PHOTO_SAFE_BYTES = 900 * 1024, PHOTO_MAX_DIM = 1600;
 var photoInput = document.getElementById('qPhotos');
 var photoThumbs = document.getElementById('photoThumbs');
 var photoStatus = document.getElementById('photoStatus');
@@ -1293,18 +1294,90 @@ function renderPhotos(){
   });
   photoStatus.textContent = photoFiles.length ? (photoFiles.length + (photoFiles.length === 1 ? " photo" : " photos") + " ready — attached to your request when you hit Send Request.") : "";
 }
+// FormSubmit rejects any single attachment over ~1 MB, and phone photos run
+// 3-5 MB, so big photos are shrunk in the browser before sending: longest
+// side capped at 1600px, re-encoded as JPEG, quality stepped down until the
+// file is safely under the limit. Unreadable files (e.g. HEIC a browser
+// cannot decode) fall back to the original untouched.
+function downscalePhoto(file){
+  if(file.size <= PHOTO_SAFE_BYTES) return Promise.resolve(file);
+  function toFile(blob){
+    if(!blob) return file;
+    var name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+    try{ return new File([blob], name, {type: 'image/jpeg', lastModified: Date.now()}); }
+    catch(e){ return file; }
+  }
+  function encode(canvas, q){
+    return new Promise(function(res){ canvas.toBlob(res, 'image/jpeg', q); });
+  }
+  function draw(img, w, h){
+    var canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+    var qualities = [0.82, 0.7, 0.58];
+    var chain = Promise.resolve(null);
+    qualities.forEach(function(q){
+      chain = chain.then(function(prev){
+        if(prev && prev.size <= PHOTO_SAFE_BYTES) return prev;
+        return encode(canvas, q);
+      });
+    });
+    return chain.then(function(blob){
+      if(blob && blob.size <= PHOTO_SAFE_BYTES) return blob;
+      // Still too big: shrink dimensions once more and retry at low quality.
+      var c2 = document.createElement('canvas');
+      c2.width = Math.round(w * 0.7); c2.height = Math.round(h * 0.7);
+      c2.getContext('2d').drawImage(img, 0, 0, c2.width, c2.height);
+      return encode(c2, 0.6).then(function(b2){ return (b2 && (!blob || b2.size < blob.size)) ? b2 : blob; });
+    });
+  }
+  function fromBitmap(){
+    return createImageBitmap(file, {imageOrientation: 'from-image'}).then(function(bmp){
+      var scale = Math.min(1, PHOTO_MAX_DIM / Math.max(bmp.width, bmp.height));
+      return draw(bmp, Math.max(1, Math.round(bmp.width * scale)), Math.max(1, Math.round(bmp.height * scale)));
+    });
+  }
+  function fromImg(){
+    return new Promise(function(res, rej){
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function(){
+        var scale = Math.min(1, PHOTO_MAX_DIM / Math.max(img.naturalWidth, img.naturalHeight));
+        draw(img, Math.max(1, Math.round(img.naturalWidth * scale)), Math.max(1, Math.round(img.naturalHeight * scale)))
+          .then(function(b){ URL.revokeObjectURL(url); res(b); }, function(){ URL.revokeObjectURL(url); rej(new Error('draw failed')); });
+      };
+      img.onerror = function(){ URL.revokeObjectURL(url); rej(new Error('decode failed')); };
+      img.src = url;
+    });
+  }
+  var attempt = (typeof createImageBitmap === 'function') ? fromBitmap().catch(fromImg) : fromImg();
+  return attempt.then(toFile).catch(function(){ return file; });
+}
 photoInput.addEventListener('change', function(){
   var picked = Array.prototype.slice.call(photoInput.files || []);
+  if(!picked.length) return;
   var notes = [];
+  var accepted = [];
   picked.forEach(function(f){
     if(f.type && f.type.indexOf('image/') !== 0){ notes.push(f.name + " isn't a photo — skipped."); return; }
-    if(f.size > MAX_PHOTO_BYTES){ notes.push(f.name + " is over 10 MB — skipped."); return; }
-    if(photoFiles.length >= MAX_PHOTOS){ notes.push("Only the first " + MAX_PHOTOS + " photos are kept."); return; }
-    var dup = photoFiles.some(function(x){ return x.name === f.name && x.size === f.size; });
-    if(!dup) photoFiles.push(f);
+    if(f.size > MAX_PHOTO_BYTES){ notes.push(f.name + " is over 25 MB — skipped."); return; }
+    accepted.push(f);
   });
-  syncPhotoInput(); renderPhotos(); updateSummary();
-  if(notes.length){ photoStatus.textContent = notes.join(' ') + (photoFiles.length ? " " + photoFiles.length + (photoFiles.length === 1 ? " photo" : " photos") + " ready to send." : ""); }
+  photoStatus.textContent = 'Preparing photos…';
+  var chain = Promise.resolve();
+  accepted.forEach(function(f){
+    chain = chain.then(function(){
+      return downscalePhoto(f).then(function(pf){
+        if(photoFiles.length >= MAX_PHOTOS){ notes.push("Only the first " + MAX_PHOTOS + " photos are kept."); return; }
+        var dup = photoFiles.some(function(x){ return x.name === pf.name && x.size === pf.size; });
+        if(!dup) photoFiles.push(pf);
+      });
+    });
+  });
+  chain.then(function(){
+    syncPhotoInput(); renderPhotos(); updateSummary();
+    if(notes.length){ photoStatus.textContent = notes.join(' ') + (photoFiles.length ? " " + photoFiles.length + (photoFiles.length === 1 ? " photo" : " photos") + " ready to send." : ""); }
+  });
 });
 
 function summaryText(){
