@@ -1288,7 +1288,7 @@ function renderPhotos(){
     var meta = document.createElement('span'); meta.className = 'photo-meta'; meta.textContent = fmtSize(f.size);
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'photo-remove';
     btn.setAttribute('aria-label', 'Remove photo ' + f.name); btn.textContent = '×';
-    btn.addEventListener('click', function(){ photoFiles.splice(i, 1); syncPhotoInput(); renderPhotos(); updateSummary(); });
+    btn.addEventListener('click', function(){ photoFiles.splice(i, 1); renderPhotos(); updateSummary(); });
     item.appendChild(img); item.appendChild(meta); item.appendChild(btn);
     photoThumbs.appendChild(item);
   });
@@ -1375,7 +1375,7 @@ photoInput.addEventListener('change', function(){
     });
   });
   chain.then(function(){
-    syncPhotoInput(); renderPhotos(); updateSummary();
+    renderPhotos(); updateSummary();
     if(notes.length){ photoStatus.textContent = notes.join(' ') + (photoFiles.length ? " " + photoFiles.length + (photoFiles.length === 1 ? " photo" : " photos") + " ready to send." : ""); }
   });
 });
@@ -1408,13 +1408,14 @@ document.getElementById('dlBtn').addEventListener('click', function(){
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
 });
 
-// Submit natively to FormSubmit via the form's multipart POST so the photo
-// attachments are actually delivered — FormSubmit's AJAX endpoint drops file
-// uploads. The picked photos are already synced into the file input by
-// syncPhotoInput(), and the _next hidden field brings the visitor back to
-// this page's quote section after sending. This handler only keeps the
-// client-side validation and shows the sending state; it never intercepts
-// or prevents the native submission.
+// Send with fetch, built from the processed photoFiles — NOT a native form
+// navigation and NOT FormSubmit's /ajax/ endpoint. Why: (1) Android Chrome
+// kills a native upload when the file input's files were swapped via
+// DataTransfer (ERR_UPLOAD_FILE_CHANGED — the picked file "changed");
+// (2) the /ajax/ endpoint drops file attachments. A plain multipart POST to
+// the form's FormSubmit action with the shrunk photos attached delivers
+// both the fields and the photos; the response is opaque (no-cors), and
+// success is shown here on the page.
 var quoteForm = document.getElementById('quoteForm');
 var sendBtn = document.getElementById('sendBtn');
 var formStatus = document.getElementById('formStatus');
@@ -1424,11 +1425,28 @@ function showFormStatus(kind, html){
   formStatus.innerHTML = html;
 }
 quoteForm.addEventListener('submit', function(ev){
-  if(!quoteForm.checkValidity()){ ev.preventDefault(); quoteForm.reportValidity(); return; }
+  ev.preventDefault();
+  if(sendBtn.disabled) return;
+  if(!quoteForm.checkValidity()){ quoteForm.reportValidity(); return; }
   var photoCount = photoFiles.length;
   sendBtn.disabled = true;
   sendBtn.textContent = 'Sending…';
   showFormStatus('sending', 'Sending your request' + (photoCount ? ' with ' + photoCount + ' photo' + (photoCount === 1 ? '' : 's') : '') + '…');
+  var fd = new FormData(quoteForm);
+  fd.delete('attachment');
+  photoFiles.forEach(function(f){ fd.append('attachment', f, f.name); });
+  fetch(quoteForm.action, {method: 'POST', body: fd, mode: 'no-cors'}).then(function(){
+    showFormStatus('success', '✓ Request sent — thanks! We will get back to you shortly. Prefer not to wait? Text photos straight to <a href="sms:+19892957179">(989) 295-7179</a>.');
+    sendBtn.textContent = 'Request Sent ✓';
+    quoteForm.reset();
+    photoFiles = [];
+    renderPhotos(); updateSummary();
+    setTimeout(function(){ sendBtn.disabled = false; sendBtn.textContent = 'Send Request →'; }, 4000);
+  }).catch(function(){
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send Request →';
+    showFormStatus('error', 'Sending hit a snag — please try again, or text photos straight to <a href="sms:+19892957179">(989) 295-7179</a> and we will take it from there.');
+  });
 });
 
 // Winter prep carousel — auto-advances every 6s, pauses on hover/focus, arrows + dots + swipe
